@@ -1,5 +1,11 @@
 import express from 'express';
-import jwt from 'jwt';
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+
+mongoose
+    .connect('mongodb+srv://admin:1234@cluster0.ubqswce.mongodb.net/?retryWrites=true&w=majority')
+    .then(() => { console.log('MongoDB connected'); })
+    .catch((err) => { console.log('MongoDB error', err); });
 
 const app = express();
 
@@ -9,11 +15,8 @@ app.get('/', (req, res) => {
     res.send("Hello");
 });
 
-app.post('/auth/login', (req, res) => {
-    console.log(req.body);
-    res.json({
-        success: true,
-    });
+app.post('/auth/register', (req, res) => {
+    
 });
 
 const PORT = 3000;
