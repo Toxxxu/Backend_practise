@@ -2,10 +2,11 @@ import express from 'express';
 
 import mongoose from 'mongoose';
 
-import { registerValidation } from './validations/auth.js';
+import { registerValidation, loginValidation, postCreateValidation } from './validations.js';
 
 import checkAuth from './utils/checkAuth.js';
 import { getMe, login, register } from './controllers/UserController.js';
+import { getAll, getOne, remove, create, update } from './controllers/PostController.js';
 
 mongoose
     .connect(
@@ -22,9 +23,15 @@ app.get('/', (req, res) => {
     res.send("Hello");
 });
 
-app.post('/auth/login', login);
+app.post('/auth/login', loginValidation, login);
 app.post('/auth/register', registerValidation, register);
 app.get('/auth/me', checkAuth, getMe);
+
+app.get('/posts', getAll);
+app.get('/posts/:id', getOne);
+app.post('/posts', checkAuth, postCreateValidation, create);
+app.delete('/posts/:id', checkAuth, remove);
+app.patch('/posts/:id', checkAuth, update);
 
 const PORT = 3000;
 
